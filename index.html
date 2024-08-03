@@ -1,72 +1,144 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人博客</title>
     <style>
+        /* 通用样式 */
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
             background-color: #f0f0f0;
         }
 
-       .blog-container {
-            max-width: 600px;
-            width: 90%;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        /* 媒体查询：手机端（最大宽度 768px） */
+        @media screen and (max-width: 768px) {
+            body {
+                font-size: 18px; /* 增大手机端字体大小 */
+            }
+
+           .box {
+                width: 100%; /* 撑满屏幕宽度 */
+                padding: 30px; /* 增加内边距 */
+                background-color: rgba(255, 255, 255, 0.8);
+                border-radius: 10px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+           .box p {
+                text-shadow: 1px 1px 2px #000000; /* 调整文字阴影 */
+            }
+
+           .button-container {
+                width: 100%; /* 撑满屏幕宽度 */
+                padding: 30px; /* 增加内边距 */
+            }
+
+           .button-container button {
+                padding: 15px; /* 增加按钮内边距 */
+                font-size: 18px; /* 增大按钮字体 */
+                margin: 15px 0; /* 增加按钮上下间距 */
+            }
+
+           .button-container button span {
+                display: block; /* 让 span 独占一行 */
+            }
         }
 
-        details {
-            background-color: #e0e0e0;
-            padding: 15px; /* 增加内边距 */
-            margin-bottom: 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+        /* 桌面端样式（最小宽度 769px） */
+        @media screen and (min-width: 769px) {
+            body {
+                font-size: 20px;
+            }
 
-        details summary {
-            font-weight: bold;
-            color: #333;
-        }
+           .box {
+                width: 70%;
+                padding: 30px;
+                background-color: rgba(255, 255, 255, 0.5);
+                border-radius: 15px;
+                border: none;
+                margin: 0 auto;
+            }
 
-        details[open] summary {
-            margin-bottom: 10px;
-        }
+           .box p {
+                color: black;
+                font-family: 'Arial Black', sans-serif;
+                text-shadow: 3px 3px 6px #000000;
+                text-align: center;
+            }
 
-        details p {
-            color: #666;
-            font-size: 18px; /* 增大字号 */
-            line-height: 1.5; /* 增加行高 */
-        }
+           .button-container {
+                width: 70%;
+                padding: 30px;
+                background-color: rgba(255, 255, 255, 0.5);
+                border-radius: 15px;
+                border: none;
+                margin: 30px auto;
+            }
 
-        /* 媒体查询：当屏幕宽度小于等于 768px（通常是手机屏幕大小）时 */
-        @media (max-width: 768px) {
-           .blog-container {
+           .button-container button {
+                display: block;
                 width: 100%;
+                margin: 15px 0;
+                padding: 15px 0;
+                border-radius: 15px;
+                background-color: rgb(232, 232, 232);
+                color: black;
+                border: none;
+                font-size: 20px;
+                cursor: pointer;
+                line-height: 1.5;
+                transition: all 0.3s ease;
+            }
+
+           .button-container button:hover {
+                background-color: #4CAF50;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+                transform: translateY(-8px);
+            }
+
+           .button-container button span:first-child {
+                font-size: 18px;
+            }
+
+           .button-container button span:last-child {
+                font-size: 16px;
+                color: #888;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="blog-container">
-        <details>
-            <summary>博客文章 1</summary>
-            <p>这是第一篇博客文章的内容。</p>
-        </details>
-        <details>
-            <summary>博客文章 2</summary>
-            <p>这是第二篇博客文章的内容。</p>
-        </details>
+    <div class="box">
+        <p>永久下载页 Ctrl+D 收藏本页面</p>
     </div>
+
+    <div class="button-container">
+        <button onclick="window.location.href='https://i0i.lanzout.com/b03974v4j'">
+            <span>艾雨插件</span>
+            <br>
+            <span>一个挺好用的 QQ 群管机器人插件</span>
+        </button>
+        <button onclick="window.location.href='https://www.example2.com'">
+            <span>各种小功能插件</span>
+            <br>
+            <span>有 QQ 或者 WeChat 的各种功能的小软件</span>
+        </button>
+        <button onclick="window.location.href='https://i0i.lanzout.com/i7jC51fid1od'">
+            <span>框架推荐</span>
+            <br>
+            <span>PC 协议快死了，推荐使用 NTQQ</span>
+        </button>
+    </div>
+
+    <script>
+        // 生成一个随机数
+        var randomNumber = Math.floor(Math.random() * 10) + 1;
+        var imageUrl = 'https://picsum.photos/seed/' + randomNumber + '/1920/1080';
+
+        document.body.style.backgroundImage = 'url(' + imageUrl + ')';
+    </script>
 </body>
 
 </html>
