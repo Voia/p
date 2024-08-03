@@ -1,162 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <style>
-    @media screen and (max-width: 768px) {
-      body {
-        font-size: 16px;
-      }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人博客</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
 
-   .box {
-        width: 90%;
-        padding: 20px;
-        background-color: rgba(255, 255, 255, 0.5);
-        border-radius: 10px;
-        border: none;
-        margin: 0 auto;
-      }
+       .blog-container {
+            max-width: 600px;
+            width: 90%;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
-   .box p {
-        color: black;
-        font-family: 'Comic Sans MS', cursive;
-        text-shadow: 2px 2px 4px #000000;
-        text-align: center;
-      }
+        details {
+            background-color: #e0e0e0;
+            padding: 15px; /* 增加内边距 */
+            margin-bottom: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-   .button-container {
-        width: 90%;
-        padding: 20px;
-        background-color: rgba(255, 255, 255, 0.5);
-        border-radius: 10px;
-        border: none;
-        margin: 20px auto;
-      }
+        details summary {
+            font-weight: bold;
+            color: #333;
+        }
 
-   .button-container button {
-        display: block;
-        width: 100%;
-        margin: 10px 0;
-        padding: 10px 0;
-        border-radius: 10px;
-        background-color: white;
-        color: black;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-        line-height: 1.5;
-        transition: all 0.3s ease;  /* 所有属性的过渡效果 */
-      }
+        details[open] summary {
+            margin-bottom: 10px;
+        }
 
-   .button-container button:hover {  /* 鼠标悬停时的效果 */
-        background-color: #4CAF50;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        transform: translateY(-5px);  /* 向上浮起 5 像素 */
-    }
+        details p {
+            color: #666;
+            font-size: 18px; /* 增大字号 */
+            line-height: 1.5; /* 增加行高 */
+        }
 
-   .button-container button span:first-child {
-        font-size: 14px;
-      }
-
-   .button-container button span:last-child {
-        font-size: 12px;
-        color: #888;
-      }
-    }
-
-    @media screen and (min-width: 769px) {
-      body {
-        font-size: 20px;
-      }
-
-   .box {
-        width: 70%;
-        padding: 30px;
-        background-color: rgba(255, 255, 255, 0.5);
-        border-radius: 15px;
-        border: none;
-        margin: 0 auto;
-      }
-
-   .box p {
-        color: black;
-        font-family: 'Arial Black', sans-serif;
-        text-shadow: 3px 3px 6px #000000;
-        text-align: center;
-      }
-
-   .button-container {
-        width: 70%;
-        padding: 30px;
-        background-color: rgba(255, 255, 255, 0.5);
-        border-radius: 15px;
-        border: none;
-        margin: 30px auto;
-      }
-
-   .button-container button {
-        display: block;
-        width: 100%;
-        margin: 15px 0;
-        padding: 15px 0;
-        border-radius: 15px;
-        background-color: rgb(232, 232, 232);
-        color: black;
-        border: none;
-        font-size: 20px;
-        cursor: pointer;
-        line-height: 1.5;
-        transition: all 0.3s ease;  /* 所有属性的过渡效果 */
-      }
-
-   .button-container button:hover {  /* 鼠标悬停时的效果 */
-        background-color: #4CAF50;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-        transform: translateY(-8px);  /* 向上浮起 8 像素 */
-    }
-
-   .button-container button span:first-child {
-        font-size: 18px;
-      }
-
-   .button-container button span:last-child {
-        font-size: 16px;
-        color: #888;
-      }
-    }
-  </style>
+        /* 媒体查询：当屏幕宽度小于等于 768px（通常是手机屏幕大小）时 */
+        @media (max-width: 768px) {
+           .blog-container {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <div class="box">
-    <p>永久下载页 Ctrl+D 收藏本页面</p>
-  </div>
-
-  <div class="button-container">
-    <button onclick="window.location.href='https://i0i.lanzout.com/b03974v4j'">
-      <span>艾雨插件</span>
-      <br>  <!-- 新增换行标签 -->
-      <span>一个挺好用的 QQ 群管机器人插件</span>
-    </button>
-    <button onclick="window.location.href='https://i0i.lanzout.com/b039omqpa'">
-      <span>各种小功能插件</span>
-      <br>  <!-- 新增换行标签 -->
-      <span>有 QQ 或者 WeChat 的各种功能的小软件</span>
-    </button>
-    <button onclick="window.location.href='https://i0i.lanzout.com/i7jC51fid1od'">
-      <span>框架推荐</span>
-      <br>  <!-- 新增换行标签 -->
-      <span>PC 协议快死了，推荐使用 NTQQ</span>
-    </button>
-  </div>
-
-  <script>
-    // 生成一个随机数
-    var randomNumber = Math.floor(Math.random() * 10) + 1;
-    var imageUrl = 'https://picsum.photos/seed/' + randomNumber + '/1920/1080';
-
-    document.body.style.backgroundImage = 'url(' + imageUrl + ')';
-  </script>
+    <div class="blog-container">
+        <details>
+            <summary>博客文章 1</summary>
+            <p>这是第一篇博客文章的内容。</p>
+        </details>
+        <details>
+            <summary>博客文章 2</summary>
+            <p>这是第二篇博客文章的内容。</p>
+        </details>
+    </div>
 </body>
 
 </html>
