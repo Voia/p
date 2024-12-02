@@ -1,144 +1,180 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="zh-CN">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>软件下载</title>
+    <!-- 图标库（可选），这里使用Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 通用样式 */
-        body {
+        /* 重置默认样式 */
+        * {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            box-sizing: border-box;
         }
 
-        /* 媒体查询：手机端（最大宽度 768px） */
-        @media screen and (max-width: 768px) {
-            body {
-                font-size: 18px; /* 增大手机端字体大小 */
-            }
-
-           .box {
-                width: 100%; /* 撑满屏幕宽度 */
-                padding: 30px; /* 增加内边距 */
-                background-color: rgba(255, 255, 255, 0.8);
-                border-radius: 10px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            }
-
-           .box p {
-                text-shadow: 1px 1px 2px #000000; /* 调整文字阴影 */
-            }
-
-           .button-container {
-                width: 100%; /* 撑满屏幕宽度 */
-                padding: 30px; /* 增加内边距 */
-            }
-
-           .button-container button {
-                padding: 15px; /* 增加按钮内边距 */
-                font-size: 18px; /* 增大按钮字体 */
-                margin: 15px 0; /* 增加按钮上下间距 */
-            }
-
-           .button-container button span {
-                display: block; /* 让 span 独占一行 */
-            }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            line-height: 1.6;
         }
 
-        /* 桌面端样式（最小宽度 769px） */
-        @media screen and (min-width: 769px) {
-            body {
-                font-size: 20px;
-            }
+        header {
+            background-color: #6200ea;
+            color: #fff;
+            padding: 40px 20px;
+            text-align: center;
+        }
 
-           .box {
-                width: 70%;
-                padding: 30px;
-                background-color: rgba(255, 255, 255, 0.5);
-                border-radius: 15px;
-                border: none;
-                margin: 0 auto;
-            }
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
 
-           .box p {
-                color: black;
-                font-family: 'Arial Black', sans-serif;
-                text-shadow: 3px 3px 6px #000000;
-                text-align: center;
-            }
+        header p {
+            font-size: 1.1em;
+        }
 
-           .button-container {
-                width: 70%;
-                padding: 30px;
-                background-color: rgba(255, 255, 255, 0.5);
-                border-radius: 15px;
-                border: none;
-                margin: 30px auto;
-            }
+        main {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
-           .button-container button {
-                display: block;
-                width: 100%;
-                margin: 15px 0;
-                padding: 15px 0;
-                border-radius: 15px;
-                background-color: rgb(232, 232, 232);
-                color: black;
-                border: none;
-                font-size: 20px;
-                cursor: pointer;
-                line-height: 1.5;
-                transition: all 0.3s ease;
-            }
+        .download-item {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
 
-           .button-container button:hover {
-                background-color: #4CAF50;
-                box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-                transform: translateY(-8px);
-            }
+        .download-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
-           .button-container button span:first-child {
-                font-size: 18px;
-            }
+        .item-icon {
+            flex: 0 0 60px;
+            height: 60px;
+            background-color: #f0e7ff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6200ea;
+            font-size: 2em;
+            margin-right: 20px;
+        }
 
-           .button-container button span:last-child {
-                font-size: 16px;
-                color: #888;
-            }
+        .item-details {
+            flex: 1;
+        }
+
+        .item-details h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #6200ea;
+        }
+
+        .item-details p {
+            font-size: 1em;
+            color: #555;
+        }
+
+        .item-download {
+            flex: 0 0 auto;
+        }
+
+        .download-button {
+            background-color: #03dac6;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .download-button i {
+            margin-left: 8px;
+        }
+
+        .download-button:hover {
+            background-color: #018786;
+        }
+
+        footer {
+            background-color: #6200ea;
+            color: #fff;
+            text-align: center;
+            padding: 15px 20px;
+            margin-top: 40px;
         }
     </style>
 </head>
-
 <body>
-    <div class="box">
-        <p>永久下载页 Ctrl+D 收藏本页面</p>
-    </div>
+    <header>
+        <h1>下载页</h1>
+        <p>全文件密码:6666</p>
+    </header>
 
-    <div class="button-container">
-        <button onclick="window.location.href='https://i0i.lanzout.com/b03974v4j'">
-            <span>艾雨插件</span>
-            <br>
-            <span>一个挺好用的 QQ 群管机器人插件</span>
-        </button>
-        <button onclick="window.location.href='https://www.example2.com'">
-            <span>各种小功能插件</span>
-            <br>
-            <span>有 QQ 或者 WeChat 的各种功能的小软件</span>
-        </button>
-        <button onclick="window.location.href='https://i0i.lanzout.com/i7jC51fid1od'">
-            <span>框架推荐</span>
-            <br>
-            <span>PC 协议快死了，推荐使用 NTQQ</span>
-        </button>
-    </div>
+    <main>
+        <section class="download-item">
+            <div class="item-icon">
+                <i class="fab fa-windows"></i>
+            </div>
+            <div class="item-details">
+                <h2>精易-程序守护</h2>
+                <p>版本: 1.0.0</p>
+                <p>.exe文件可用于守护已崩的程序。--圈内名言:程序崩挂个程序守护不就行了。</p>
+            </div>
+            <div class="item-download">
+                <a href="https://i0i.lanzout.com/i0bcS2cwescb" class="download-button">立即下载 <i class="fas fa-download"></i></a>
+            </div>
+        </section>
 
-    <script>
-        // 生成一个随机数
-        var randomNumber = Math.floor(Math.random() * 10) + 1;
-        var imageUrl = 'https://picsum.photos/seed/' + randomNumber + '/1920/1080';
+        <section class="download-item">
+            <div class="item-icon">
+                <i class="fa fa-cloud"></i>
+            </div>
+            <div class="item-details">
+                <h2>MYQQ</h2>
+                <p>版本: 3.3.8</p>
+                <p>知名框架--从0到尾最受青睐的空间,致敬</p>
+            </div>
+            <div class="item-download">
+                <a href="https://i0i.lanzout.com/i7jC51fid1od" class="download-button">立即下载 <i class="fas fa-download"></i></a>
+            </div>
+        </section>
 
-        document.body.style.backgroundImage = 'url(' + imageUrl + ')';
-    </script>
+        <section class="download-item">
+            <div class="item-icon">
+                <i class="fab fa-linux"></i>
+            </div>
+            <div class="item-details">
+                <h2>风铃の程序</h2>
+                <p>版本: 0.0.0</p>
+                <p>有好玩的东西就发布！</p>
+            </div>
+            <div class="item-download">
+                <a href="https://i0i.lanzout.com/b039omqpa" class="download-button">立即下载 <i class="fas fa-download"></i></a>
+            </div>
+        </section>
+
+        <!-- 可以根据需要添加更多下载项 -->
+    </main>
+
+    <footer>
+        <p>&copy; 2024 @保留所有权利</p>
+    </footer>
 </body>
-
 </html>
