@@ -3,178 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>软件下载</title>
-    <!-- 图标库（可选），这里使用Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>图片拼图工具</title>
     <style>
-        /* 重置默认样式 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f6f8;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        header {
-            background-color: #6200ea;
-            color: #fff;
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        header p {
-            font-size: 1.1em;
-        }
-
-        main {
-            padding: 20px;
+            font-family: '微软雅黑', sans-serif;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            align-items: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
         }
 
-        .download-item {
-            background-color: #fff;
+        .container {
+            background-color: white;
             padding: 20px;
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
 
-        .download-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .item-icon {
-            flex: 0 0 60px;
-            height: 60px;
-            background-color: #f0e7ff;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #6200ea;
-            font-size: 2em;
-            margin-right: 20px;
-        }
-
-        .item-details {
-            flex: 1;
-        }
-
-        .item-details h2 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-            color: #6200ea;
-        }
-
-        .item-details p {
-            font-size: 1em;
-            color: #555;
-        }
-
-        .item-download {
-            flex: 0 0 auto;
-        }
-
-        .download-button {
-            background-color: #03dac6;
-            color: #fff;
-            padding: 10px 20px;
+        .upload-btn {
+            background-color: #4CAF50;
             border: none;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 1em;
-            display: flex;
-            align-items: center;
-            transition: background-color 0.3s;
-        }
-
-        .download-button i {
-            margin-left: 8px;
-        }
-
-        .download-button:hover {
-            background-color: #018786;
-        }
-
-        footer {
-            background-color: #6200ea;
-            color: #fff;
+            color: white;
+            padding: 10px 20px;
             text-align: center;
-            padding: 15px 20px;
-            margin-top: 40px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        #image-preview {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .preview-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        #canvas-container {
+            border: 1px solid #ddd;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>下载页</h1>
-        <p>全文件密码:6666</p>
-    </header>
+    <div class="container">
+        <h2>图片拼图工具</h2>
+        <input type="file" id="image-upload" multiple accept="image/*">
+        <button class="upload-btn" onclick="previewImages()">上传图片</button>
+        <div id="image-preview"></div>
+    </div>
 
-    <main>
-        <section class="download-item">
-            <div class="item-icon">
-                <i class="fab fa-windows"></i>
-            </div>
-            <div class="item-details">
-                <h2>精易-程序守护</h2>
-                <p>版本: 1.0.0</p>
-                <p>.exe文件可用于守护已崩的程序。--圈内名言:程序崩挂个程序守护不就行了。</p>
-            </div>
-            <div class="item-download">
-                <a href="https://i0i.lanzout.com/i0bcS2cwescb" class="download-button">立即下载 <i class="fas fa-download"></i></a>
-            </div>
-        </section>
+    <button class="upload-btn" onclick="mergeImages()">开始拼图</button>
 
-        <section class="download-item">
-            <div class="item-icon">
-                <i class="fa fa-cloud"></i>
-            </div>
-            <div class="item-details">
-                <h2>MYQQ</h2>
-                <p>版本: 3.3.8</p>
-                <p>知名框架--从0到尾最受青睐的框架,致敬</p>
-            </div>
-            <div class="item-download">
-                <a href="https://i0i.lanzout.com/i7jC51fid1od" class="download-button">立即下载 <i class="fas fa-download"></i></a>
-            </div>
-        </section>
+    <div id="canvas-container"></div>
 
-        <section class="download-item">
-            <div class="item-icon">
-                <i class="fab fa-linux"></i>
-            </div>
-            <div class="item-details">
-                <h2>风铃の程序</h2>
-                <p>版本: 0.0.0</p>
-                <p>有好玩的东西就发布！</p>
-            </div>
-            <div class="item-download">
-                <a href="https://i0i.lanzout.com/b039omqpa" class="download-button">立即下载 <i class="fas fa-download"></i></a>
-            </div>
-        </section>
+    <script>
+        const uploadInput = document.getElementById('image-upload');
+        const previewContainer = document.getElementById('image-preview');
+        const canvasContainer = document.getElementById('canvas-container');
+        let images = [];
 
-        <!-- 可以根据需要添加更多下载项 -->
-    </main>
+        // 图片预览函数
+        function previewImages() {
+            previewContainer.innerHTML = '';
+            images = [];
+            
+            Array.from(uploadInput.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = () => {
+                        images.push(img);
+                        const imgElement = document.createElement('img');
+                        imgElement.className = 'preview-img';
+                        imgElement.src = e.target.result;
+                        previewContainer.appendChild(imgElement);
+                    };
+                };
+                reader.readAsDataURL(file);
+            });
+        }
 
-    <footer>
-        <p>&copy; 2024 @保留所有权利</p>
-    </footer>
+        // 图片拼接函数
+        function mergeImages() {
+            if (images.length === 0) {
+                alert('请先上传图片');
+                return;
+            }
+
+            // 计算画布尺寸（假设每行显示3张图片，可根据需求调整）
+            const imagesPerRow = 3;
+            const imageSize = 200; // 每张图片大小
+            const padding = 10; // 图片间距
+            const rows = Math.ceil(images.length / imagesPerRow);
+            const canvasWidth = imagesPerRow * imageSize + (imagesPerRow - 1) * padding;
+            const canvasHeight = rows * imageSize + (rows - 1) * padding;
+
+            // 创建画布
+            const canvas = document.createElement('canvas');
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+            const ctx = canvas.getContext('2d');
+            canvasContainer.innerHTML = '';
+            canvasContainer.appendChild(canvas);
+
+            // 绘制图片并添加混合效果
+            images.forEach((img, index) => {
+                const x = (index % imagesPerRow) * (imageSize + padding);
+                const y = Math.floor(index / imagesPerRow) * (imageSize + padding);
+                
+                // 绘制原图
+                ctx.drawImage(img, x, y, imageSize, imageSize);
+                
+                // 添加混合效果（这里使用叠加混合模式，可调整globalCompositeOperation参数）
+                ctx.globalCompositeOperation = 'screen'; // 混合模式可选：screen、overlay、lighten等
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)'; // 半透明白色叠加
+                ctx.fillRect(x, y, imageSize, imageSize);
+            });
+
+            // 重置混合模式
+            ctx.globalCompositeOperation = 'source-over';
+        }
+    </script>
 </body>
 </html>
