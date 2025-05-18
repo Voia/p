@@ -2,496 +2,180 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ 像素块分割合成器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>域名变更通知</title>
     <style>
-        :root {
-            --primary: #00b894;
-            --primary-dark: #009d7a;
-            --secondary: #0984e3;
-            --light: #f8f9fa;
-            --dark: #2d3436;
-            --gray: #636e72;
-            --border: #dfe6e9;
-            --shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-        
+        /* 全局样式重置 */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
         }
-        
-        body {
-            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background-color: #f5f6fa;
-            color: var(--dark);
-            line-height: 1.6;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        h1 {
-            color: var(--primary);
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-        
-        .subtitle {
-            color: var(--gray);
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto 30px;
-        }
-        
-        .card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            padding: 30px;
-            margin-bottom: 30px;
-        }
-        
-        .tool-box {
-            text-align: center;
-        }
-        
-        .btn-group {
+
+        /* 弹窗容器 */
+        .domain-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin: 25px 0;
-            flex-wrap: wrap;
-        }
-        
-        .btn {
-            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            padding: 12px 28px;
-            border-radius: 8px;
-            font-size: 16px;
+            z-index: 99999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* 弹窗内容 */
+        .popup-content {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+            width: 90%;
+            max-width: 500px;
+            min-width: 280px;
+            padding: 32px 24px;
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        /* 显示动画 */
+        .domain-popup.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .domain-popup.active .popup-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* 标题 */
+        .popup-title {
+            color: #007AFF;
+            font-size: 1.35rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        /* 内容区域 */
+        .domain-info {
+            color: #333;
+            line-height: 1.7;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+        }
+
+        .domain-info strong {
+            display: block;
+            color: #0056B3;
+            font-size: 1.1rem;
+            margin: 12px 0;
+            text-align: center;
+        }
+
+        /* 操作指引 */
+        .operation-tip {
+            color: #666;
+            font-size: 0.875rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* 关闭按钮 */
+        .close-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            outline: none;
+            background: #FF4444;
+            color: #fff;
+            transition: background 0.3s ease;
+            touch-action: manipulation;
         }
-        
-        .btn-primary {
-            background: var(--primary);
-            color: white;
+
+        .close-btn:hover {
+            background: #FF6B6B;
         }
-        
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 184, 148, 0.3);
-        }
-        
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-        
-        .btn-outline:hover {
-            background: var(--primary);
-            color: white;
-        }
-        
-        #fileInput {
-            display: none;
-        }
-        
-        .progress-container {
-            width: 100%;
-            height: 24px;
-            background: #e0e0e0;
-            border-radius: 12px;
-            overflow: hidden;
-            margin: 25px 0;
-            display: none;
-        }
-        
-        #progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), #55efc4);
-            width: 0%;
-            transition: width 0.4s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 25px;
-            color: var(--primary);
-            font-size: 1.6rem;
-            font-weight: 600;
-            position: relative;
-            padding-bottom: 10px;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: var(--primary);
-        }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .grid-item {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-        }
-        
-        .grid-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-        
-        .grid-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        
-        .grid-item .label {
-            padding: 12px;
-            text-align: center;
-            font-size: 14px;
-            color: var(--gray);
-            border-top: 1px solid var(--border);
-        }
-        
-        #combined-img {
-            max-width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 0 25px rgba(0,0,0,0.1);
-            display: block;
-            margin: 20px auto;
-        }
-        
-        .info-box {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 18px;
-            margin-top: 25px;
-            font-size: 14px;
-            color: var(--gray);
-            border-left: 4px solid var(--primary);
-        }
-        
-        .icon {
-            margin-right: 8px;
-        }
-        
+
+        /* 移动端优化 */
         @media (max-width: 768px) {
-            .btn-group {
-                flex-direction: column;
+            .popup-content {
+                padding: 24px 20px;
             }
-            
-            .btn {
-                width: 100%;
-            }
-            
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .card {
-                padding: 20px;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
+
+            .popup-title {
+                font-size: 1.25rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>✨ 像素块分割合成器</h1>
-            <p class="subtitle">将任何图片智能分割为9张像素块图，每张包含约1000个像素块，可完美还原原图</p>
-        </header>
-        
-        <div class="card tool-box">
-            <input type="file" id="fileInput" accept="image/*">
-            <div class="btn-group">
-                <label for="fileInput" class="btn btn-primary">
-                    <span class="icon">📁</span> 选择图片
-                </label>
-                <button onclick="processImage()" class="btn btn-primary">
-                    <span class="icon">✂️</span> 开始分割
-                </button>
+    <!-- 域名变更弹窗 -->
+    <div class="domain-popup" id="domainPopup">
+        <div class="popup-content">
+            <div class="popup-title">【重要通知】域名变更提醒</div>
+            <div class="domain-info">
+                您好！因业务升级，我们的官方域名已更换为：<br>
+                <strong>新域名：caning.cc</strong><br>
+                原域名：<strong>ttwa.cloud</strong> 将于 <span style="color: #FF6B6B;">2025年5月26日</span> 停止使用。
             </div>
-            
-            <div class="progress-container" id="progressContainer">
-                <div id="progress-bar">0%</div>
+            <div class="operation-tip">
+                建议您及时更新访问方式：<br>
+                • 手机用户：点击浏览器「添加到主屏幕」<br>
+                • PC用户：按「Ctrl+D」收藏新域名
             </div>
-            
-            <div class="info-box">
-                <p><strong>使用说明：</strong>上传图片后点击"开始分割"按钮，系统会将图片分割为9部分，每部分包含约1000个像素块。处理完成后可下载所有分割图片。</p>
-            </div>
-        </div>
-        
-        <div class="card" id="resultSection" style="display:none;">
-            <h2 class="section-title">分割结果</h2>
-            <div class="grid" id="gridContainer"></div>
-            
-            <div style="text-align: center; margin-top: 30px;">
-                <button onclick="downloadAllImages()" class="btn btn-outline">
-                    <span class="icon">⏬</span> 一键下载全部 (9张)
-                </button>
-            </div>
-        </div>
-        
-        <div class="card" id="combinedSection" style="display:none;">
-            <h2 class="section-title">合成验证</h2>
-            <img id="combined-img" src="" alt="合成图片">
-            <p style="text-align: center; color: var(--gray); margin-top: 15px;">9张分割图片可完美拼合成原始图片</p>
+            <button class="close-btn" onclick="closePopup()">我已知晓（刷新后会再次提示）</button>
         </div>
     </div>
 
     <script>
-        const gridContainer = document.getElementById('gridContainer');
-        const combinedImg = document.getElementById('combined-img');
-        const progressContainer = document.getElementById('progressContainer');
-        const progressBar = document.getElementById('progress-bar');
-        const resultSection = document.getElementById('resultSection');
-        const combinedSection = document.getElementById('combinedSection');
-        let originalImage = null;
-        let processedImages = [];
-        const BLOCK_SIZE = 10; // 单个像素块大小（px）
-        const TARGET_BLOCKS = 1000; // 每张图片目标块数量
-        let blocksPerPart = 0;
-        let totalBlocks = 0;
+        const popup = document.getElementById('domainPopup');
 
-        function processImage() {
-            const file = document.getElementById('fileInput').files[0];
-            if (!file) return alert('请先选择图片');
-            
-            // 重置状态
-            processedImages = [];
-            gridContainer.innerHTML = '';
-            combinedImg.src = '';
-            resultSection.style.display = 'none';
-            combinedSection.style.display = 'none';
-            
-            progressContainer.style.display = 'block';
-            progressBar.style.width = '0%';
-            progressBar.textContent = '0%';
+        // 页面加载/刷新时强制显示弹窗
+        window.addEventListener('DOMContentLoaded', () => {
+            showPopup();
+        });
 
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                originalImage = new Image();
-                originalImage.onload = () => {
-                    splitImageIntoBlocks(originalImage);
-                };
-                originalImage.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) { // 处理浏览器后退缓存导致的刷新
+                showPopup();
+            }
+        });
+
+        // 显示弹窗
+        function showPopup() {
+            popup.classList.add('active');
+            // 绑定关闭事件（同时支持点击和触摸）
+            popup.querySelector('.close-btn').addEventListener('click', closePopup);
+            popup.querySelector('.close-btn').addEventListener('touchstart', closePopup);
         }
 
-        function splitImageIntoBlocks(img) {
-            const canvas = document.createElement('canvas');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
-
-            const totalWidth = Math.ceil(img.width / BLOCK_SIZE);
-            const totalHeight = Math.ceil(img.height / BLOCK_SIZE);
-            totalBlocks = totalWidth * totalHeight;
-            blocksPerPart = Math.ceil(totalBlocks / 9);
-
-            const allBlocks = Array.from({ length: totalBlocks }, (v, i) => i);
-            shuffle(allBlocks);
-
-            const parts = Array.from({ length: 9 }, () => []);
-            allBlocks.forEach((block, i) => {
-                parts[i % 9].push(block);
-            });
-
-            generatePartImages(parts, img.width, img.height, ctx);
-        }
-
-        function generatePartImages(parts, imgWidth, imgHeight, originalCtx) {
-            let processedParts = 0;
-            const totalParts = parts.length;
-
-            parts.forEach((blockIndices, partIndex) => {
-                setTimeout(() => {
-                    const partCanvas = document.createElement('canvas');
-                    partCanvas.width = imgWidth;
-                    partCanvas.height = imgHeight;
-                    const ctx = partCanvas.getContext('2d');
-                    ctx.fillStyle = '#fff';
-                    ctx.fillRect(0, 0, imgWidth, imgHeight);
-
-                    blockIndices.forEach((blockIndex) => {
-                        const x = (blockIndex % Math.ceil(imgWidth / BLOCK_SIZE)) * BLOCK_SIZE;
-                        const y = Math.floor(blockIndex / Math.ceil(imgWidth / BLOCK_SIZE)) * BLOCK_SIZE;
-                        const imgData = originalCtx.getImageData(x, y, BLOCK_SIZE, BLOCK_SIZE);
-                        ctx.putImageData(imgData, x, y);
-                    });
-
-                    const imgDataUrl = partCanvas.toDataURL('image/png');
-                    processedImages.push(imgDataUrl);
-                    
-                    // 创建预览元素
-                    const gridItem = document.createElement('div');
-                    gridItem.className = 'grid-item';
-                    
-                    const img = document.createElement('img');
-                    img.src = imgDataUrl;
-                    img.onclick = () => previewLarge(img.src);
-                    
-                    const label = document.createElement('div');
-                    label.className = 'label';
-                    label.textContent = `分割图 ${partIndex + 1}`;
-                    
-                    gridItem.appendChild(img);
-                    gridItem.appendChild(label);
-                    gridContainer.appendChild(gridItem);
-
-                    processedParts++;
-                    const progress = Math.round((processedParts / totalParts) * 100);
-                    progressBar.style.width = `${progress}%`;
-                    progressBar.textContent = `${progress}%`;
-
-                    if (processedParts === totalParts) {
-                        combineImages(imgWidth, imgHeight, originalCtx);
-                        resultSection.style.display = 'block';
-                    }
-                }, 0);
+        // 关闭弹窗（仅隐藏，不记录状态）
+        function closePopup() {
+            popup.classList.remove('active');
+            // 移除事件监听避免重复绑定（可选）
+            popup.querySelectorAll('.close-btn').forEach(btn => {
+                btn.removeEventListener('click', closePopup);
+                btn.removeEventListener('touchstart', closePopup);
             });
         }
 
-        function combineImages(imgWidth, imgHeight, originalCtx) {
-            const combineCanvas = document.createElement('canvas');
-            combineCanvas.width = imgWidth;
-            combineCanvas.height = imgHeight;
-            const ctx = combineCanvas.getContext('2d');
-            ctx.drawImage(originalImage, 0, 0);
-
-            combinedImg.src = combineCanvas.toDataURL();
-            
-            // 完成进度条
-            progressBar.style.width = '100%';
-            progressBar.textContent = '100%';
-            setTimeout(() => {
-                progressContainer.style.display = 'none';
-                combinedSection.style.display = 'block';
-            }, 500);
-        }
-
-        function downloadAllImages() {
-            if (processedImages.length === 0) {
-                alert('没有可下载的图片，请先处理图片');
-                return;
+        // 禁止移动端滚动穿透
+        document.addEventListener('touchmove', (e) => {
+            if (popup.classList.contains('active')) {
+                e.preventDefault();
             }
-            
-            // 创建ZIP下载
-            if (typeof JSZip === 'undefined') {
-                // 如果JSZip不可用，逐个下载
-                alert('开始下载所有图片...');
-                processedImages.forEach((imgData, index) => {
-                    setTimeout(() => {
-                        const link = document.createElement('a');
-                        link.href = imgData;
-                        link.download = `pixel-part-${index + 1}.png`;
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                    }, index * 300);
-                });
-            } else {
-                // 使用JSZip打包下载
-                const zip = new JSZip();
-                const imgFolder = zip.folder("pixel_parts");
-                
-                processedImages.forEach((imgData, index) => {
-                    const base64Data = imgData.split(',')[1];
-                    imgFolder.file(`pixel-part-${index + 1}.png`, base64Data, {base64: true});
-                });
-                
-                zip.generateAsync({type:"blob"}).then(function(content) {
-                    const link = document.createElement('a');
-                    link.href = URL.createObjectURL(content);
-                    link.download = "pixel-parts.zip";
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                });
-            }
-        }
-
-        function previewLarge(src) {
-            const overlay = document.createElement('div');
-            overlay.style.position = 'fixed';
-            overlay.style.top = '0';
-            overlay.style.left = '0';
-            overlay.style.width = '100%';
-            overlay.style.height = '100%';
-            overlay.style.backgroundColor = 'rgba(0,0,0,0.9)';
-            overlay.style.zIndex = '1000';
-            overlay.style.display = 'flex';
-            overlay.style.justifyContent = 'center';
-            overlay.style.alignItems = 'center';
-            overlay.style.cursor = 'zoom-out';
-            overlay.onclick = () => document.body.removeChild(overlay);
-            
-            const img = new Image();
-            img.src = src;
-            img.style.maxWidth = '90%';
-            img.style.maxHeight = '90%';
-            img.style.borderRadius = '8px';
-            img.style.objectFit = 'contain';
-            
-            overlay.appendChild(img);
-            document.body.appendChild(overlay);
-        }
-
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
+        }, { passive: false });
     </script>
-
-    <!-- 加载JSZip库用于打包下载 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </body>
 </html>
